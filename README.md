@@ -1,10 +1,12 @@
-# nwipe
-![GitHub CI badge](https://github.com/martijnvanbrummelen/nwipe/workflows/ci_ubuntu_latest/badge.svg)
-![GitHub CI badge](https://github.com/martijnvanbrummelen/nwipe/workflows/ci_ubuntu_16.04/badge.svg)
+# vwipe
+![GitHub CI badge](https://github.com/martijnvanbrummelen/vwipe/workflows/ci_ubuntu_latest/badge.svg)
+![GitHub CI badge](https://github.com/martijnvanbrummelen/vwipe/workflows/ci_ubuntu_16.04/badge.svg)
 
-nwipe is a program that will securely erase disks. It can operate as both a command line
+vwipe is a program that will securely erase disks. It can operate as both a command line
 tool without a GUI or with an ncurses GUI as shown in the example below. It can wipe multiple
 disks simultaneously.
+
+This is a fork of nwipe, having the goal to use vector optimized PRNG implementations, to improve speed.
 
 The user can select from a variety of recognised secure erase methods which include:
 
@@ -22,10 +24,10 @@ It also includes the following pseudo random number generators:
 * ISAAC
 
 It is a fork of the dwipe command used by
-Darik's Boot and Nuke (dban).  nwipe is included with [partedmagic](https://partedmagic.com) and
+Darik's Boot and Nuke (dban).  vwipe is included with [partedmagic](https://partedmagic.com) and
 [ShredOS](https://github.com/nadenislamarre/shredos) if you want a quick and easy bootable CD or USB version.
 
-Nwipe was created out of a need to run the DBAN dwipe command outside
+vwipe was created out of a need to run the DBAN dwipe command outside
 of DBAN, in order to allow its use with any host distribution, thus
 giving better hardware support.
 
@@ -33,7 +35,7 @@ giving better hardware support.
 
 ## Compiling & Installing
 
-`nwipe` requires the following libraries to be installed:
+`vwipe` requires the following libraries to be installed:
 
 * ncurses
 * pthreads
@@ -41,7 +43,7 @@ giving better hardware support.
 
 ### Debian & Ubuntu prerequisites
 
-If you are compiling `nwipe` from source, the following libraries will need to be installed first:
+If you are compiling `vwipe` from source, the following libraries will need to be installed first:
 
 ```bash
 sudo apt install \
@@ -83,14 +85,14 @@ make
 make install
 ```
 
-Then run nwipe !
+Then run vwipe !
 ```
 cd src
-sudo ./nwipe
+sudo ./vwipe
 ```
 or
 ```
-sudo nwipe
+sudo vwipe
 ```
 
 ### Hacking
@@ -106,7 +108,7 @@ make install
 
 The `-O0 -g` flags disable optimisations. This is required if you're debugging with
 `gdb` in an IDE such as Kdevelop. With these optimisations enabled you won't be
-able to see the values of many variables in nwipe, not to mention the IDE won't step
+able to see the values of many variables in vwipe, not to mention the IDE won't step
 through the code properly.
 
 The `-Wall` and `-Wextra` flags enable all compiler warnings. Please submit code with zero warnings.
@@ -127,7 +129,7 @@ with all the normal optimisations, using:
 ## Bugs
 
 Bugs can be reported on GitHub:
-https://github.com/martijnvanbrummelen/nwipe
+https://github.com/martijnvanbrummelen/vwipe
 
 ## License
 
