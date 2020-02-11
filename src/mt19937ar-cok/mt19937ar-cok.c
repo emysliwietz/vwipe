@@ -140,10 +140,24 @@ unsigned long twister_genrand_int32( twister_state_t* state )
 
 // Obviously not the real method yet
 void twister_avx_genrand_int256( twister_state_t* state, unsigned long* cache) {
-  for (int i = 0; i < 8; ++i) {
-    cache[i] = twister_genrand_int32(state);
-  }
 
+  /* next_state sets state->left to N states
+       fortunately N=624 and 624/8 = 78,
+       so it's safe to work in batches of 8
+  */ 
+  if ( --state->left == 0 ) { next_state( state ); }
+  unsigned long y[8];
+  for (unsigned char i = 0; i < 8; ++i) {
+    y[i] = *state->next++;
+    
+    /* Tempering */
+    y[i] ^= (y[i] >> 11);
+    y[i] ^= (y[i] << 7) & 0x9d2c5680UL;
+    y[i] ^= (y[i] << 15) & 0xefc60000UL;
+    y[i] ^= (y[i] >> 18);
+
+    cache[i] = y[i];
+  }
 }
 
 
