@@ -138,18 +138,27 @@ unsigned long twister_genrand_int32( twister_state_t* state )
     return y;
 }
 
+// Obviously not the real method yet
+void twister_avx_genrand_int256( twister_state_t* state, unsigned long* cache) {
+  for (int i = 0; i < 8; ++i) {
+    cache[i] = twister_genrand_int32(state);
+  }
+
+}
+
+
+/*
+  Idea so far: 
+  avx generates 256bit at a time, the 8 results get cached and only once all 8 run 
+  out the algorithm will be called again
+
+  PoC, TODO: Cleanup later
+ */
+unsigned long avx_cache[8];
+unsigned char avx_idx = 8;
+
 unsigned long twister_avx_genrand_int32( twister_state_t* state )
 {
-    unsigned long y;
-
-    if ( --state->left == 0 ) { next_state( state ); }
-    y = *state->next++;
-
-    /* Tempering */
-    y ^= (y >> 11);
-    y ^= (y << 7) & 0x9d2c5680UL;
-    y ^= (y << 15) & 0xefc60000UL;
-    y ^= (y >> 18);
-
-    return y;
+  if (avx_idx == 8) { twister_avx_genrand_int256(state, avx_cache); avx_idx = 0; };    
+  return avx_cache[avx_idx++];
 }
