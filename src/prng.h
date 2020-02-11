@@ -47,6 +47,10 @@ typedef struct
 int nwipe_twister_init( NWIPE_PRNG_INIT_SIGNATURE );
 int nwipe_twister_read( NWIPE_PRNG_READ_SIGNATURE );
 
+/* vectorized Mersenne Twister prototypes. */
+int vwipe_twister_init( NWIPE_PRNG_INIT_SIGNATURE );
+int vwipe_twister_read( NWIPE_PRNG_READ_SIGNATURE );
+
 /* ISAAC prototypes. */
 int nwipe_isaac_init( NWIPE_PRNG_INIT_SIGNATURE );
 int nwipe_isaac_read( NWIPE_PRNG_READ_SIGNATURE );

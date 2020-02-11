@@ -26,6 +26,8 @@
 
 nwipe_prng_t nwipe_twister = {"Mersenne Twister (mt19937ar-cok)", nwipe_twister_init, nwipe_twister_read};
 
+nwipe_prng_t vwipe_twister = {"Mersenne Twister (mt19937ar-cok) avx", vwipe_twister_init, vwipe_twister_read};
+
 nwipe_prng_t nwipe_isaac = {"ISAAC (rand.c 20010626)", nwipe_isaac_init, nwipe_isaac_read};
 
 int nwipe_u32tobuffer( u8* buffer, u32 rand, int len )
@@ -62,6 +64,41 @@ int nwipe_twister_init( NWIPE_PRNG_INIT_SIGNATURE )
 }
 
 int nwipe_twister_read( NWIPE_PRNG_READ_SIGNATURE )
+{
+    u32 i = 0;
+    u32 ii;
+    u32 words = count / SIZE_OF_TWISTER;  // the values of twister_genrand_int32 is strictly 4 bytes
+    u32 remain = count % SIZE_OF_TWISTER;  // the values of twister_genrand_int32 is strictly 4 bytes
+
+    /* Twister returns 4-bytes per call, so progress by 4 bytes. */
+    for( ii = 0; ii < words; ++ii )
+    {
+        nwipe_u32tobuffer( (u8*) ( buffer + i ), twister_genrand_int32( (twister_state_t*) *state ), SIZE_OF_TWISTER );
+        i = i + SIZE_OF_TWISTER;
+    }
+
+    /* If there is some remainder copy only relevant number of bytes to not
+     * overflow the buffer. */
+    if( remain > 0 )
+    {
+        nwipe_u32tobuffer( (u8*) ( buffer + i ), twister_genrand_int32( (twister_state_t*) *state ), remain );
+    }
+
+    return 0;
+}
+
+int vwipe_twister_init( NWIPE_PRNG_INIT_SIGNATURE )
+{
+    if( *state == NULL )
+    {
+        /* This is the first time that we have been called. */
+        *state = malloc( sizeof( twister_state_t ) );
+    }
+    twister_init( (twister_state_t*) *state, (u32*) ( seed->s ), seed->length / sizeof( u32 ) );
+    return 0;
+}
+
+int vwipe_twister_read( NWIPE_PRNG_READ_SIGNATURE )
 {
     u32 i = 0;
     u32 ii;

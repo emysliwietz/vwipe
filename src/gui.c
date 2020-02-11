@@ -970,11 +970,12 @@ void nwipe_gui_prng( void )
      */
 
     extern nwipe_prng_t nwipe_twister;
+    extern nwipe_prng_t vwipe_twister;
     extern nwipe_prng_t nwipe_isaac;
     extern int terminate_signal;
 
     /* The number of implemented PRNGs. */
-    const int count = 2;
+    const int count = 3;
 
     /* The first tabstop. */
     const int tab1 = 2;
@@ -1004,6 +1005,10 @@ void nwipe_gui_prng( void )
     {
         focus = 1;
     }
+    if( nwipe_options.prng == &vwipe_twister )
+    {
+        focus = 2;
+    }
 
     do
     {
@@ -1018,6 +1023,8 @@ void nwipe_gui_prng( void )
         mvwprintw( main_window, yy++, tab1, "" );
         mvwprintw( main_window, yy++, tab1, "  %s", nwipe_twister.label );
         mvwprintw( main_window, yy++, tab1, "  %s", nwipe_isaac.label );
+	mvwprintw( main_window, yy++, tab1, "  %s", vwipe_twister.label );
+		
         mvwprintw( main_window, yy++, tab1, "" );
 
         /* Print the cursor. */
@@ -1071,6 +1078,40 @@ void nwipe_gui_prng( void )
                            yy++,
                            tab1,
                            "initial PRNG state by cryptanalysis of the ISAAC stream.                    " );
+                mvwprintw( main_window,
+                           yy++,
+                           tab1,
+                           "                                                                            " );
+                break;
+
+	    case 2:
+
+                mvwprintw( main_window, 2, tab2, "syslinux.cfg:  nuke=\"nwipe --prng vtwister\"" );
+
+                mvwprintw( main_window,
+                           yy++,
+                           tab1,
+                           "The Mersenne Twister, by Makoto Matsumoto and Takuji Nishimura, is a        " );
+                mvwprintw( main_window,
+                           yy++,
+                           tab1,
+                           "generalized feedback shift register PRNG that is uniform and                " );
+                mvwprintw( main_window,
+                           yy++,
+                           tab1,
+                           "equidistributed in 623-dimensions with a proven period of 2^19937-1.        " );
+                mvwprintw( main_window,
+                           yy++,
+                           tab1,
+                           "                                                                            " );
+                mvwprintw( main_window,
+                           yy++,
+                           tab1,
+                           "This implementation passes the Marsaglia Diehard test suite.                " );
+		mvwprintw( main_window,
+                           yy++,
+                           tab1,
+                           "Rewritten for avx support by Fabian Druschke and Egidius Mysliwietz         " );
                 mvwprintw( main_window,
                            yy++,
                            tab1,
@@ -1132,6 +1173,10 @@ void nwipe_gui_prng( void )
                 if( focus == 1 )
                 {
                     nwipe_options.prng = &nwipe_isaac;
+                }
+		if( focus == 2 )
+                {
+                    nwipe_options.prng = &vwipe_twister;
                 }
                 return;
 
