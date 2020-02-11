@@ -58,7 +58,7 @@
 #define NWIPE_GUI_FOOTER_Y ( LINES - 1 )
 
 /* Options window: width, height, x coorindate, y coordinate. */
-#define NWIPE_GUI_OPTIONS_W 44
+#define NWIPE_GUI_OPTIONS_W 50
 #define NWIPE_GUI_OPTIONS_H 7
 #define NWIPE_GUI_OPTIONS_Y 1
 #define NWIPE_GUI_OPTIONS_X 0
@@ -80,7 +80,7 @@
 #define NWIPE_GUI_STATS_W 36
 #define NWIPE_GUI_STATS_H 7
 #define NWIPE_GUI_STATS_Y 1
-#define NWIPE_GUI_STATS_X 44
+#define NWIPE_GUI_STATS_X 50
 
 /* Stats fields, relative to their window. */
 #define NWIPE_GUI_STATS_RUNTIME_Y 1
@@ -556,7 +556,10 @@ void nwipe_gui_select( int count, nwipe_context_t** c )
                     /* The focus is already at the last element. */
                     focus = count - 1;
                     break;
-                }
+                } else if( focus == ( count - 1)) {
+		    focus = 0;
+		    break;
+		}
 
                 if( focus - offset >= slots )
                 {
@@ -579,7 +582,9 @@ void nwipe_gui_select( int count, nwipe_context_t** c )
                     /* The focus is already at the last element. */
                     focus = 0;
                     break;
-                }
+                } else if( focus == 0) {
+       		    focus = count - 1;
+		}
 
                 if( focus < offset )
                 {
@@ -1149,7 +1154,9 @@ void nwipe_gui_prng( void )
                 if( focus < count - 1 )
                 {
                     focus += 1;
-                }
+                } else if( focus == ( count - 1)) {
+		    focus = 0;
+		}
                 break;
 
             case KEY_UP:
@@ -1159,7 +1166,9 @@ void nwipe_gui_prng( void )
                 if( focus > 0 )
                 {
                     focus -= 1;
-                }
+                } else if( focus == 0) {
+       		    focus = count - 1;
+		}
                 break;
 
             case KEY_ENTER:
@@ -1330,7 +1339,9 @@ void nwipe_gui_verify( void )
                 if( focus < count - 1 )
                 {
                     focus += 1;
-                }
+                } else if( focus == ( count - 1)) {
+		    focus = 0;
+		}
                 break;
 
             case KEY_UP:
@@ -1340,7 +1351,9 @@ void nwipe_gui_verify( void )
                 if( focus > 0 )
                 {
                     focus -= 1;
-                }
+                } else if( focus == 0) {
+       		    focus = count - 1;
+		}
                 break;
 
             case KEY_ENTER:
@@ -1496,7 +1509,9 @@ void nwipe_gui_noblank( void )
                 if( focus < count - 1 )
                 {
                     focus += 1;
-                }
+                } else if( focus == ( count - 1)) {
+		    focus = 0;
+		}
                 break;
 
             case KEY_UP:
@@ -1506,7 +1521,9 @@ void nwipe_gui_noblank( void )
                 if( focus > 0 )
                 {
                     focus -= 1;
-                }
+                } else if( focus == 0) {
+       		    focus = count - 1;
+		}
                 break;
 
             case KEY_ENTER:
@@ -1825,7 +1842,9 @@ void nwipe_gui_method( void )
                 if( focus < count - 1 )
                 {
                     focus += 1;
-                }
+                } else if( focus == ( count - 1)) {
+		    focus = 0;
+		}
                 break;
 
             case KEY_UP:
@@ -1835,7 +1854,9 @@ void nwipe_gui_method( void )
                 if( focus > 0 )
                 {
                     focus -= 1;
-                }
+                } else if( focus == 0) {
+       		    focus = count - 1;
+		}
                 break;
 
             case KEY_BACKSPACE:
