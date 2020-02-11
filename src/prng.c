@@ -108,7 +108,7 @@ int vwipe_twister_read( NWIPE_PRNG_READ_SIGNATURE )
     /* Twister returns 4-bytes per call, so progress by 4 bytes. */
     for( ii = 0; ii < words; ++ii )
     {
-        nwipe_u32tobuffer( (u8*) ( buffer + i ), twister_genrand_int32( (twister_state_t*) *state ), SIZE_OF_TWISTER );
+        nwipe_u32tobuffer( (u8*) ( buffer + i ), twister_avx_genrand_int32( (twister_state_t*) *state ), SIZE_OF_TWISTER );
         i = i + SIZE_OF_TWISTER;
     }
 
@@ -116,7 +116,7 @@ int vwipe_twister_read( NWIPE_PRNG_READ_SIGNATURE )
      * overflow the buffer. */
     if( remain > 0 )
     {
-        nwipe_u32tobuffer( (u8*) ( buffer + i ), twister_genrand_int32( (twister_state_t*) *state ), remain );
+        nwipe_u32tobuffer( (u8*) ( buffer + i ), twister_avx_genrand_int32( (twister_state_t*) *state ), remain );
     }
 
     return 0;

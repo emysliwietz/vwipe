@@ -28,5 +28,7 @@ void twister_init( twister_state_t* state, unsigned long init_key[], unsigned lo
 
 /* Generate a random integer on the [0,0xffffffff] interval. */
 unsigned long twister_genrand_int32( twister_state_t* state );
+/* Generate a random integer on the [0,0xffffffff] interval. using avx */
+unsigned long twister_avx_genrand_int32( twister_state_t* state );
 
 #endif /* MT19937AR_H_ */

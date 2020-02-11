@@ -137,3 +137,19 @@ unsigned long twister_genrand_int32( twister_state_t* state )
 
     return y;
 }
+
+unsigned long twister_avx_genrand_int32( twister_state_t* state )
+{
+    unsigned long y;
+
+    if ( --state->left == 0 ) { next_state( state ); }
+    y = *state->next++;
+
+    /* Tempering */
+    y ^= (y >> 11);
+    y ^= (y << 7) & 0x9d2c5680UL;
+    y ^= (y << 15) & 0xefc60000UL;
+    y ^= (y >> 18);
+
+    return y;
+}
